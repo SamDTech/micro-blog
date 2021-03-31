@@ -8,12 +8,15 @@ const CommentCreate = ({ postId }) => {
     e.preventDefault();
 
     setContent('');
-
-    await axios.post(
-      `http://localhost:4001/posts/${postId}/comments`,
-      { content },
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+    try {
+      await axios.post(
+        `http://localhost:4001/posts/${postId}/comments`,
+        { content },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
