@@ -1,21 +1,25 @@
 const { default: axios } = require('axios');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
-app.use(express.json());
 
-const events = [];
+app.use(bodyParser.json());
+
+let events = [];
 
 app.post('/events', async (req, res) => {
   const event = req.body;
+  console.log(req.body);
 
-  events.push(events);
+  events.push(event);
+  console.log(events);
 
   try {
-    await axios.post('http://localhost:4000/events', event);
-    await axios.post('http://localhost:4001/events', event);
-    await axios.post('http://localhost:4002/events', event);
-    await axios.post('http://localhost:4003/events', event);
+    await axios.post("http://posts-clusterip-srv:4000/events", event);
+    await axios.post('http://comments-srv:4001/events', event);
+    await axios.post('http://query-srv:4002/events', event);
+    await axios.post('http://moderation-srv:4003/events', event);
   } catch (error) {
     console.log(error.message);
   }

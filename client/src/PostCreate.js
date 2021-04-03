@@ -1,22 +1,22 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import axios from "axios";
+import React, { useState } from "react";
 
 const PostCreate = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     const { data } = await axios.post(
-      'http://localhost:4000/posts',
+      "http://posts.com/posts/create",
       { title },
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
 
-    setTitle('')
+    setTitle("");
   };
 
   return (

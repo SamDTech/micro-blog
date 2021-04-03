@@ -11,10 +11,14 @@ const PostList = () => {
   }, []);
 
   const fetchPosts = async () => {
-    const { data } = await axios.get('http://localhost:4002/posts');
-    console.log(data);
+    try {
+      const { data } = await axios.get('http://posts.com/posts');
+      console.log(data);
 
-    setPosts(data);
+      setPosts(data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const renderedPosts = Object.values(posts).map((post) => {

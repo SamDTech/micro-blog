@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+const axios = require('axios');
+const bodyParser = require('body-parser');
 
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json());
 
 app.use(cors());
 
@@ -34,6 +36,7 @@ const handleEvents = (type, data) => {
   }
 };
 
+//
 app.get('/posts', (req, res) => {
   res.send(posts);
 });
@@ -46,12 +49,18 @@ app.post('/events', (req, res) => {
 });
 
 app.listen(4002, async () => {
-  console.log('listening on 4002');
-  const { data } = await axios.get('http://localhost:4005/events');
+  try {
+    console.log('listening on 4002');
+    const { data } = await axios.get("http://event-bus-srv:4005/events");
 
-  for (const event of data) {
-    console.log('processing events', event.type);
+    console.log(data);
 
-    handleEvents(event.type, event.data)
+    for (const event of data) {
+      console.log('processing events', event.type);
+
+      handleEvents(event.type, event.data);
+    }
+  } catch (error) {
+    console.log(error.message);
   }
 });
